@@ -9,13 +9,13 @@ const router = Router();
 
 router.get('/', usuariosGet);
 
-router.put('/', usuariosPut);
-
 router.post('/', usuariosPost);
 
-router.delete('/', usuariosDelete);
+router.put('/:id', usuariosPut);
 
 router.patch('/', usuariosPatch);
+
+router.delete('/', usuariosDelete);
 
 
 module.exports = router;
