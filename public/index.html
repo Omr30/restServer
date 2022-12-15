@@ -18,6 +18,10 @@
         data-shape="rectangular" data-logo_alignment="left">
     </div>
 
+    <button id="google-signout">
+        Signout
+    </button>
+
     <script>
         function handleCredentialResponse(response) {
 
@@ -34,12 +38,20 @@
             })
                 .then(resp => resp.json())
                 .then(resp => {
-                    console.log(resp);
+                    console.log(resp)
+                    localStorage.setItem('email', resp.usuario.correo)
                 })
                 .catch(console.warn)
 
             
         }
+
+        const button = document.getElementById('google-signout');
+        button.onclick = () => {
+            console.log(google.accounts.id);
+            google.accounts.id.disableAutoSelect()
+        }
+
     </script>
 
 </body>
