@@ -26,10 +26,13 @@
         function handleCredentialResponse(response) {
 
             // Google Token
-            // console.log('id_token',response.credential);
             const body = {id_token: response.credential}
+            
+            const url = ( window.location.hostname.includes('localhost') )
+                    ? 'http://localhost:8080/api/auth/google'
+                    : 'https://restserver-production-1aab.up.railway.app/api/auth/google';
 
-            fetch('http://localhost:8080/api/auth/google',{
+            fetch(url,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
