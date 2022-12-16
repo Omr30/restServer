@@ -26,9 +26,8 @@ router.post('/', [
 // Actualizar - privado - cualquiera con token valido
 router.put('/:id', [
     validarJWT,
-    check('id', 'No es un ID valido').isMongoId(),
+    check('nombre', 'El nombre es obligatorio').notEmpty(),
     check('id').custom(existeCategoriaPorId),
-    check('nombre', 'El nombre tiene que estar en mayuscula').toUpperCase(),
     validarCampos
 ], actualizarCategoria)
 

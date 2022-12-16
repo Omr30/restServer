@@ -11,12 +11,7 @@ const obtenerCategorias = async(req, res = response) => {
         Categoria.find(query)
                .skip(desde)
                .limit(limite)
-               .populate('usuario', {
-                nombre: 1,
-                correo: 1,
-                rol: 1,
-                _id: 0
-               })
+               .populate('usuario', 'nombre')
     ])
 
     res.json({
@@ -30,13 +25,7 @@ const obtenerCategorias = async(req, res = response) => {
 
 const obtenerCategoria = async(req, res = response) => {
     const {id} = req.params
-    const category = await Categoria.findById(id).populate('usuario', {
-        nombre: 1,
-        correo: 1,
-        _id: 0,
-        rol: 1,
-        estado: 1
-    })
+    const category = await Categoria.findById(id).populate('usuario', 'nombre')
     res.json(category)
 }
 
@@ -71,9 +60,12 @@ const crearCategoria = async(req, res = response) => {
 // actualizarCategoria recibir el nombre
 const actualizarCategoria = async(req, res = response) => {
     const { id } = req.params
-    const {_id, usuario, __v, ...resto} = req.body
+    const {usuario, estado, ...data} = req.body
 
-    const categoria = await Categoria.findByIdAndUpdate(id, resto)
+    data.nombre = data.nombre.toUpperCase();
+    data.usuario = req.usuario._id;
+
+    const categoria = await Categoria.findByIdAndUpdate(id, data, { new: true })
 
     res.json(categoria)
 
@@ -83,9 +75,9 @@ const actualizarCategoria = async(req, res = response) => {
 const borrarCategoria = async(req, res = response) => {
     const {id} = req.params
 
-    const categoria = await Categoria.findByIdAndUpdate(id, {estado: false})
+    const categoria = await Categoria.findByIdAndUpdate(id, {estado: false}, {new: true})
 
-    res.json({categoria})
+    res.json(categoria)
 }
 
 
