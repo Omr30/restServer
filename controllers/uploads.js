@@ -128,10 +128,10 @@ const actualizarImgCloudinary = async(req, res = response) => {
     // Limpiar imagenes previas
     if(modelo.img){
         // Hay que borrar la imagen del servidor
-        const pathImagen = path.join(__dirname, '../uploads', coleccion, modelo.img)
-        if(fs.existsSync(pathImagen)) {
-            fs.unlinkSync(pathImagen)
-        }
+        const nombreArr = modelo.img.split('/')
+        const nombre = nombreArr[nombreArr.length -1 ];
+        const [public_id] = nombre.split('.')
+        await cloudinary.uploader.destroy(public_id)
     }
 
     const {tempFilePath} = req.files.archivo
