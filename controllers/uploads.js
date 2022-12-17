@@ -93,8 +93,8 @@ const mostrarImagen = async(req, res = response) => {
         }
     }
 
-    const noImage = path.join(__dirname, '../assets', 'no-image.jpg')
-    res.sendFile(noImage)
+    const pathImagen = path.join(__dirname, '../assets/no-image.jpg')
+    res.sendFile(pathImagen)
 }
 
 module.exports = {
