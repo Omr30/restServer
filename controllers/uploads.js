@@ -93,7 +93,8 @@ const mostrarImagen = async(req, res = response) => {
         }
     }
 
-    res.json({msg: 'falta place holder'})
+    const noImage = path.join(__dirname, '../assets', 'no-image.jpg')
+    res.sendFile(noImage)
 }
 
 module.exports = {
