@@ -21,7 +21,6 @@ const subirArchivo = async(files, extensionesValidas = ['png', 'jpg', 'jpeg', 'g
                 if (err) {
                     reject(err)
                 }
-    
                 resolve(nombreTemp)
             })
     })

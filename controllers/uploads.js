@@ -1,4 +1,4 @@
-const { response, json } = require("express");
+const { response } = require("express");
 const { subirArchivo } = require("../helpers");
 
 const cargarArchivo = async(req, res = response) => {
@@ -8,11 +8,16 @@ const cargarArchivo = async(req, res = response) => {
         return;
     }
 
-    // Imagenes
-    const nombre = await subirArchivo(req.files)
-
-    res.json({nombre})
-
+    try{
+        // Imagenes
+        // const nombre = await subirArchivo(req.files, ['txt', 'md'], 'textos')
+        const nombre = await subirArchivo(req.files, undefined, 'imgs')
+        res.json({nombre}) 
+    }catch(error){
+        res.status(400).json({
+            msg: error
+        })
+    }
 }
 
 module.exports = {
