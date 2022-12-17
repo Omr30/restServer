@@ -11,7 +11,7 @@ router.post('/', cargarArchivo)
 
 router.put('/:coleccion/:id', [
     check('id', 'El id debe ser de mongo').isMongoId(),
-    check('coleccion').custom(e => (coleccionesPermitidas(e,['usuario', 'productos']))),
+    check('coleccion').custom(e => (coleccionesPermitidas(e,['usuarios', 'productos']))),
     validarCampos
 ], actualizarImg)
 
