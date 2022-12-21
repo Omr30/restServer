@@ -3,6 +3,7 @@ const cors = require('cors');
 const { dbConnection } = require('../database/config');
 const fileUpload = require('express-fileupload');
 const socketController = require('../sockets/controller');
+const { comprobarJWT } = require('../helpers');
 
 class Server {
 
@@ -73,8 +74,14 @@ class Server {
     }
 
     sockets() {
-        this.io.on('connection', (socket) => {
-            console.log(`cliente conectado, ${socket.id}`);
+        this.io.on('connection', async(socket) => {
+            const token = socket.handshake.headers['x-token'];
+            const usuario =  await comprobarJWT(token)
+            if(!usuario){
+                return socket.disconnect()
+            }
+
+            console.log('Se conecto', usuario.nombre);
         })
     }
 
