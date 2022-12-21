@@ -29,50 +29,20 @@
         </div>
     </div>
     <div class="col-sm-6">
-
+            <h1>Login Manual</h1>
+            <hr>
+            <form class="d-grid">
+                <input type="text" name="correo" class="form-control mb-2" placeholder="Correo">
+                <input type="text" name="password" class="form-control mb-2" placeholder="Password">
+    
+                <button type="submit" class="btn btn-primary">
+                    Ingresar
+                </button>
+            </form>
     </div>
 </div>
 
-
-
-    <script>
-        function handleCredentialResponse(response) {
-
-            // Google Token
-            const body = {id_token: response.credential}
-            
-            const url = ( window.location.hostname.includes('localhost') )
-                    ? 'http://localhost:8080/api/auth/google'
-                    : 'https://restserver-production-1aab.up.railway.app/api/auth/google';
-
-            fetch(url,{
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(body)
-            })
-                .then(resp => resp.json())
-                .then(resp => {
-                    console.log(resp)
-                    localStorage.setItem('email', resp.usuario.correo)
-                })
-                .catch(console.warn)
-
-            
-        }
-
-        const button = document.getElementById('google-signout');
-        button.onclick = () => {
-            google.accounts.id.disableAutoSelect()
-
-            google.accounts.id.revoke(localStorage.getItem('email'), done => {
-                localStorage.clear();
-                location.reload();
-            })
-        }
-
-    </script>
+<script src="./js/auth.js"></script>
 
 </body>
 
