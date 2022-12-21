@@ -7,6 +7,13 @@ const url = ( window.location.hostname.includes('localhost') )
 let usuario = null;
 let socket = null;
 
+// Referencias HMTL
+const txtUid = document.querySelector('#txtUid')
+const txtMensaje = document.querySelector('#txtMensaje')
+const ulUsuarios = document.querySelector('#ulUsuarios')
+const ulMensajes = document.querySelector('#ulMensajes')
+const btnSalir = document.querySelector('#btnSalir')
+
 const validarJWT = async() => {
     const token = localStorage.getItem('token') || ''
 
@@ -29,11 +36,32 @@ const validarJWT = async() => {
 }
 
 const conectarSocket = async() => {
-    const socket = io({
+    socket = io({
         'extraHeaders': {
             'x-token': localStorage.getItem('token')
         }
     });
+
+    socket.on('connect', () => {
+        console.log('Socket online');
+    })
+    
+    socket.on('disconnect', () => {
+        console.log('Socket offline');
+        
+    })
+
+    socket.on('recibir-mensajes', () => {
+        // TODO:
+    })
+
+    socket.on('usuarios-activos', () => {
+        // TODO:
+    })
+
+    socket.on('mensaje-privado', () => {
+        // TODO:
+    })
 }
 
 const main = async() => {
