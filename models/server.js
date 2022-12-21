@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
 const fileUpload = require('express-fileupload');
-const socketController = require('../sockets/controller');
-const { comprobarJWT } = require('../helpers');
+const { createServer } = require('http');
+const { socketController } = require('../sockets/controller');
 
 class Server {
 
@@ -12,7 +12,7 @@ class Server {
         this.port = process.env.PORT;
 
         // Config socket.io
-        this.server = require('http').createServer(this.app)
+        this.server = createServer(this.app)
         this.io = require('socket.io')(this.server)
 
         this.paths = {
@@ -74,15 +74,7 @@ class Server {
     }
 
     sockets() {
-        this.io.on('connection', async(socket) => {
-            const token = socket.handshake.headers['x-token'];
-            const usuario =  await comprobarJWT(token)
-            if(!usuario){
-                return socket.disconnect()
-            }
-
-            console.log('Se conecto', usuario.nombre);
-        })
+        this.io.on('connection', ( socket ) => socketController(socket, this.io ) )
     }
 
     listen() {
