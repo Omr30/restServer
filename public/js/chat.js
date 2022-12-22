@@ -51,8 +51,8 @@ const conectarSocket = async() => {
         
     })
 
-    socket.on('recibir-mensajes', () => {
-        // TODO:
+    socket.on('recibir-mensajes', (payload) => {
+        console.log(payload);
     })
 
     socket.on('usuarios-activos', dibujarUsuarios)
@@ -76,6 +76,18 @@ const dibujarUsuarios = (usuarios = []) => {
     })
     ulUsuarios.innerHTML = usersHtml
 }
+
+txtMensaje.addEventListener('keyup', ({keyCode}) => {
+
+    const mensaje = txtMensaje.value
+    const uid = txtUid.value
+    
+    if (keyCode !== 13) {return}
+    if (mensaje.length === 0) {return}
+
+    socket.emit('enviar-mensaje', {mensaje, uid})
+
+})
 
 const main = async() => {
     
