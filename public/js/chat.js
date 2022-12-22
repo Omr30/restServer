@@ -2,7 +2,7 @@
 
 const url = ( window.location.hostname.includes('localhost') )
 ? 'http://localhost:8080/api/auth/'
-: 'https://restserver-production-1aab.up.railway.app/api/auth/';
+: 'https://restserver-production-a8bc.up.railway.app/api/auth/';
 
 let usuario = null;
 let socket = null;
