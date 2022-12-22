@@ -8,11 +8,11 @@ let usuario = null;
 let socket = null;
 
 // Referencias HMTL
-const txtUid = document.querySelector('#txtUid')
-const txtMensaje = document.querySelector('#txtMensaje')
-const ulUsuarios = document.querySelector('#ulUsuarios')
-const ulMensajes = document.querySelector('#ulMensajes')
-const btnSalir = document.querySelector('#btnSalir')
+const txtUid     = document.querySelector('#txtUid');
+const txtMensaje = document.querySelector('#txtMensaje');
+const ulUsuarios = document.querySelector('#ulUsuarios');
+const ulMensajes = document.querySelector('#ulMensajes');
+const btnSalir   = document.querySelector('#btnSalir');
 
 const validarJWT = async() => {
     const token = localStorage.getItem('token') || ''
@@ -51,15 +51,32 @@ const conectarSocket = async() => {
         
     })
 
-    socket.on('recibir-mensajes', (payload) => {
-        console.log(payload);
-    })
+    socket.on('recibir-mensajes', dibujarMensajes)
 
     socket.on('usuarios-activos', dibujarUsuarios)
 
     socket.on('mensaje-privado', () => {
         // TODO:
     })
+}
+
+const dibujarMensajes = ( mensajes = []) => {
+
+    let mensajesHTML = '';
+    mensajes.forEach( ({ nombre, mensaje }) => {
+
+        mensajesHTML += `
+            <li>
+                <p>
+                    <span class="text-primary">${ nombre }: </span>
+                    <span>${ mensaje }</span>
+                </p>
+            </li>
+        `;
+    });
+
+    ulMensajes.innerHTML = mensajesHTML;
+
 }
 
 const dibujarUsuarios = (usuarios = []) => {
@@ -73,8 +90,8 @@ const dibujarUsuarios = (usuarios = []) => {
                 </p>
             </li>
         `
-    })
-    ulUsuarios.innerHTML = usersHtml
+    });
+    ulUsuarios.innerHTML = usersHtml;
 }
 
 txtMensaje.addEventListener('keyup', ({keyCode}) => {
@@ -86,7 +103,7 @@ txtMensaje.addEventListener('keyup', ({keyCode}) => {
     if (mensaje.length === 0) {return}
 
     socket.emit('enviar-mensaje', {mensaje, uid})
-
+    
 })
 
 const main = async() => {
